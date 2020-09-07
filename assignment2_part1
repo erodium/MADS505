@@ -1,0 +1,34 @@
+import pandas as pd
+
+def proportion_of_education():
+    # this reads in the dataset from the file
+    all_records = pd.read_csv("assets/NISPUF17.csv")
+    
+    # create the fields dict with corresponding education level value
+    list_of_fields = {
+        "less than high school"                : 1,
+        "high school"                          : 2,
+        "more than high school but not college": 3, 
+        "college"                              : 4
+    }
+    
+    # this gets the 'EDUC1' column, which is the education level of the mother
+    # the EDUC1 field is a number from 1-4 corresponding to list_of_fields
+    educ_levels = all_records['EDUC1']
+    
+    # get the number of total records
+    num_total_records = len(all_records)
+    num_total_educ_records = len(educ_levels)
+    
+    # can do boolean indexing to get only records that are of a certain value, then get len of those objects and
+    # divide by the total_records. Then package this up in a dict. Sloppy, but it works. 
+    for field_name, val in list_of_fields.items():
+        records = educ_levels[educ_levels == val]
+        num_records = len(records)
+        proportion = num_records / num_total_records
+        list_of_fields[field_name] = proportion
+    
+    
+    return(list_of_fields)
+
+    #raise NotImplementedError()
