@@ -1,0 +1,42 @@
+"""
+Assignment 1 Part 1
+Before you start working on the problems, here is a small example to help you understand how to write your answers. The solution should be written within the function body given, and the final result should be returned. Then the autograder will try to call the function and validate your returned result accordingly.
+"""
+
+def example_word_count():
+    # This example question requires counting words in the example_string below.
+    example_string = "Amy is 5 years old"
+
+    # You should fix the given code only between ### BEGIN CODE and ### END CODE. 
+    # Your code should return a result. 
+    # You can comment out or delete the NotImplementedError below.
+    
+    ### BEGIN CODE 
+    result = example_string.split(" ")
+    ### END CODE 
+    #raise NotImplementedError()
+    return len(result)
+
+"""
+Names
+Fix the incorrect regex between ### BEGIN CODE and ### END CODE to generate a list of names in the simple_string.
+"""
+
+import re
+def names():
+    simple_string = """Amy is 5 years old, and her sister Mary is 2 years old. 
+    Ruth and Peter, their parents, have 3 kids."""
+
+    ### BEGIN CODE  
+    pattern = r'[A-Z][a-z]+'
+    match = [a.group(0) for a in re.finditer(pattern, simple_string)]
+    ### END CODE  
+    
+    # YOUR CODE HERE
+    #raise NotImplementedError()
+    
+    return match
+    
+names()
+
+assert len(names()) == 4, "There are four names in the simple_string"
