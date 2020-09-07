@@ -1,0 +1,49 @@
+import pandas as pd
+
+def chickenpox_by_sex():
+    # read in the data
+    df = pd.read_csv("assets/NISPUF17.csv")
+    # print("total records: {} ".format(len(df)))
+    
+    # prep return dict
+    list_of_fields = {
+        "male": 1,
+        "female": 2
+    }
+    
+    # get only the children who were vaccinated against chickenpox (at least one varicella dose)
+    # P_NUMVRC = total number of varicella doses
+    df = df[df["P_NUMVRC"] > 0]
+    # print("sliced so only VRC, num now {}".format(len(df)))
+    
+    # HAD_CPOX will be those who reported had cpox
+    # Could have missing codes. 77 For DON'T KNOW, 99 for REFUSED
+    # 1=Yes, 2=No, 2=Don'tKnow, 77=DON'T KNOW.
+    
+    for field_name, val in list_of_fields.items():
+        # break off the section that is just for male or female (depending on field name)
+        section = df[df["SEX"] == val]
+        # determine the total number of that sex
+        num_section = len(section)
+        # print ("{} section: {}".format(field_name, num_section))
+        
+        # break off the portion that had chicken pox and received an immunization
+        portion_had_cpox = section[section["HAD_CPOX"] == 1]
+        # determine number of records 
+        num_portion_had_cpox = len(portion_had_cpox)
+        # print ("Num {} had CPOX: {}".format(field_name, num_portion_had_cpox))
+        
+        # break off the portion that reported they did not have chicken pox and received immunization
+        portion_did_not_have_cpox = section[section["HAD_CPOX"] == 2]
+        # determine number
+        num_portion_did_not_have_cpox = len(portion_did_not_have_cpox)
+        # print ("Num {} did not have CPOX: {}".format(field_name, num_portion_did_not_have_cpox))
+        
+        # calculate the ratio of those that reported yes versus those that reported no
+        proportion = num_portion_had_cpox / num_portion_did_not_have_cpox
+        # print ("{} proportion: {}".format(field_name, proportion))
+        list_of_fields[field_name] = proportion
+        
+    return list_of_fields
+    
+    #raise NotImplementedError()
