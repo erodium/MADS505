@@ -47,3 +47,6 @@ def logs():
     return result
 
 logs()
+
+assert len(logs()) == 979
+
